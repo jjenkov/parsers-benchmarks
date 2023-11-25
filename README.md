@@ -2,7 +2,7 @@
 Benchmarks for my "parsers" repository (containing parser implementation examples) which can be found here:
 
 
-(https://github.com/jjenkov/parsers)
+[https://github.com/jjenkov/parsers](https://github.com/jjenkov/parsers)
 
 
 
