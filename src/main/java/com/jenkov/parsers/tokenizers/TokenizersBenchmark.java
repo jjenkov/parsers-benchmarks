@@ -12,8 +12,8 @@ public class TokenizersBenchmark {
 
     @State(Scope.Thread)
     public static class TokenizerState {
-        public String input = " + - \"this is a quoted token \" * &abc()def349.87iuy:899";
-        public Utf8Buffer utf8Buffer = new Utf8Buffer(new byte[1024]);
+        public String input = " + - \"this is a quoted token \" * &abc()def349.87iuy:899/*abc*/ ";
+        public Utf8Buffer utf8Buffer = new Utf8Buffer(new byte[1024], 0, 1024);
 
         public BasicTokenizer basicTokenizer = new BasicTokenizer();
         public BasicTokenizerMethodized basicTokenizerMethodized = new BasicTokenizerMethodized();
@@ -23,6 +23,7 @@ public class TokenizersBenchmark {
         @Setup
         public void doSetup() {
             utf8Buffer.writeCodepoints(input);
+            utf8Buffer.calculateLengthAndEndOffset();
         }
 
         @TearDown
@@ -31,19 +32,6 @@ public class TokenizersBenchmark {
         }
     }
 
-
-
-    /*
-    @State(Scope.Thread)
-    public static class JacksonState {
-
-        @Setup(Level.Invocation)
-        public void doSetup() {
-
-        }
-
-    }
-     */
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
@@ -61,12 +49,6 @@ public class TokenizersBenchmark {
         blackhole.consume(state.tokenizerListenerIndex);
         return state.tokenizerListenerIndex;
 
-        /*
-        state.writer1_1.writeObject(state.pojo1_1, 1, state.dest1_1, 0);
-
-        blackhole.consume(state.dest1_1);
-        return state.dest1_1;
-         */
     }
 
 }
